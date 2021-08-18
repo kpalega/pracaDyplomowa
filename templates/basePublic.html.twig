@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Praca inżynierska
+			{% endblock %}
+		</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+		{# Run `composer require symfony/webpack-encore-bundle`
+				           and uncomment the following Encore helpers to start using Symfony UX #}
+		{% block stylesheets %}
+			{#{{ encore_entry_link_tags('app') }}#}
+		{% endblock %}
+
+		{% block javascripts %}
+			{#{{ encore_entry_script_tags('app') }}#}
+		{% endblock %}
+	</head>
+	<body>
+
+		<div class="container-fluid bg-white">
+			<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+
+				<div class="col-md-3 text-start">
+					<a href="#" class="nav-link mx-3 px-2 link-dark">
+					<img class="m-2 img-thumbnail" style="width:75px; height:75px; border-radius:50px;" src="{{'/images/Przedszkole.png'}}" ></img>
+					</a>
+				</div>
+
+				<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+					<li>
+						<a href="#" class="nav-link px-2 link-dark">Aktualności</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle link-dark" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Żłobek
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+							<li>
+								<a class="dropdown-item" href="#">Opłaty</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#">Rekrutacja</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#">Statut</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#">Kadra</a>
+							</li>
+						</ul>
+					</li>
+                    <li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle link-dark" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Przedszkole
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+							<li>
+								<a class="dropdown-item" href="#">Opłaty</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#">Rekrutacja</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#">Statut</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#">Kadra</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="#" class="nav-link px-2 link-dark">Kontakt</a>
+					</li>
+				</ul>
+
+				<div class="col-md-3 mx-3 text-end">
+					<button type="button" class=" btn btn-warning bg-gradient text-white fw-bold me-2">Zaloguj</button>
+				</div>
+			</header>
+		</div>
+
+		<div class="container bg-white"> 
+            {% block body %}{% endblock %}
+		</div>
+
+			<div class="container-fluid">
+				<footer class="py-3 my-4 bg-primary bg-opacity-75">
+					<ul class="nav justify-content-center border-bottom pb-3 mb-3">
+						<li class="nav-item">
+							<a href="#" class="nav-link px-2 text-white">Aktualności</a>
+						</li>
+						<li class="nav-item">
+							<a href="#" class="nav-link px-2 text-white">Kontakt</a>
+						</li>
+					</ul>
+					<p class="text-center text-white">&copy; 2021 Company, Inc</p>
+				</footer>
+			</div>
+		</body>
+	</html>
