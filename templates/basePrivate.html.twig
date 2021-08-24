@@ -19,32 +19,40 @@
 		{% endblock %}
 	</head>
 	<body class="bg-secondary bg-opacity-25">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="vstack gap-5 col-sm-2 bg-primary bg-opacity-75 vh-100 text-center">
-					<div class="col my-3">
-							<img class="m-2" style="width:100px; height:100px; border-radius:50px;" src="{{'/images/Przedszkole.png'}}" ></img>
+		<div class="d-flex flex-row ">
+			<div class="col-sm-3 col-md-2 d-flex flex-column p-3 bg-primary bg-opacity-75 vh-100">
+				<a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+					<div class="d-flex mb-3 align-items-center justify-content-center py-3" >
+							<img class="img-fluid rounded-circle" style="width: 55%;" src="{{'/images/Przedszkole.png'}}" ></img>
 					</div>
-					<div class="col m-4 vstack gap-3 text-start">
-						<div class="col text-white"><a class="nav-link link-light active" href="#">Strona główna</a></div>
-						<div class="col text-white"><a class="nav-link link-light" href="#">Wiadomości</a></div>
-						<div class="col text-white"><a class="nav-link link-light" href="#">Prace domowe</a></div>
-						<div class="col text-white"><a class="nav-link link-light" href="#">Dokumenty</a></div>
-					</div>
-					<div class="col position-relative" >
-						<button type="button" class="px-5 btn btn-primary active position-absolute bottom-0 start-50 translate-middle-x text-white">Wyloguj</button>
-					</div>
+				</a>
+				<ul class="nav nav-pills flex-column mb-auto align-items-start"  style="height: 250px;">
+					<li class="mb-auto nav-item"><a href="#" class="nav-link link-light"><h6>Strona główna</h6></a></li>
+					<li class="mb-auto nav-item"><a href="#" class="nav-link link-light"><h6>Wiadomości</h6></a></li>
+					<li class="mb-auto nav-item"><a href="#" class="nav-link link-light"><h6>Praca domowa</h6></a></li>
+					<li class="mb-auto nav-item"><a href="#" class="nav-link link-light"><h6>Dokumenty</h6></a></li>
+				</ul>
+				<hr style="color:white">
+				<div class="d-flex align-items-center justify-content-center">
+					<button type="button" class="flex-fill btn btn-primary active text-white">Wyloguj</button>
 				</div>
-				<div class="col-sm-10">
-					<div class="row">
-						<div class="p-3 container-fluid bg-light text-end">
+			</div>
+			<div class="flex-row flex-fill ">
+			
+				<div class="flex-fill">
+					<div class="d-flex p-2 justify-content-end align-items-center container-fluid bg-light">
+						<div class="">
 							<h5 class="mx-2">Zalogowano jako x !</h5>
 						</div>
-					</div>
-					<div class="row my-3">
-						<div class="align-center">
-							{% block body %}{% endblock %}
+						<div class="">
+							<button type="button" class="btn btn-primary active text-white">Wyloguj</button>
 						</div>
+					</div>
+					
+				</div>
+				<div class="flex-fill my-3">
+					<div class="container align-center">
+						{% block body %}{% endblock %}
 					</div>
 				</div>
 			</div>

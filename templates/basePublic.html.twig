@@ -19,85 +19,95 @@
 		{% endblock %}
 	</head>
 	<body>
-
-		<div class="container-fluid bg-white">
-			<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-
-				<div class="col-md-3 text-start">
-					<a href="#" class="nav-link mx-3 px-2 link-dark">
-					<img class="m-2 img-thumbnail" style="width:75px; height:75px; border-radius:50px;" src="{{'/images/Przedszkole.png'}}" ></img>
-					</a>
-				</div>
-
-				<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-					<li>
-						<a href="#" class="nav-link px-2 link-dark">Aktualności</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle link-dark" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							Żłobek
-						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-							<li>
-								<a class="dropdown-item" href="#">Opłaty</a>
+		<nav class="navbar navbar-expand-lg navbar-light ">
+			<div class="container-fluid mx-3 ">
+				<a href="#" class="navbar-brand mx-3 px-2">
+					<img class="m-2"  height="100" src="{{'/images/Przedszkole.png'}}" ></img>
+				</a>
+				<button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse " id="navbarSupportedContent">
+					<div class="mx-auto">
+						<ul class="navbar-nav mb-2 mb-lg-0  ">
+							<li class="nav-item" >
+							<a class="nav-link" aria-current="page" href="#">Aktualności</a>
 							</li>
-							<li>
-								<a class="dropdown-item" href="#">Rekrutacja</a>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									Przedszkole
+								</a>
+								<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<li><a class="dropdown-item" href="#">Opłaty</a></li>
+									<li><a class="dropdown-item" href="#">Rekrutacja</a></li>
+									<li><a class="dropdown-item" href="#">Statut</a></li>
+									<li><a class="dropdown-item" href="#">Kadra</a></li>
+								</ul>
 							</li>
-							<li>
-								<a class="dropdown-item" href="#">Statut</a>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									Żłobek
+								</a>
+								<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<li><a class="dropdown-item" href="#">Opłaty</a></li>
+									<li><a class="dropdown-item" href="#">Rekrutacja</a></li>
+									<li><a class="dropdown-item" href="#">Statut</a></li>
+									<li><a class="dropdown-item" href="#">Kadra</a></li>
+								</ul>
 							</li>
-							<li>
-								<a class="dropdown-item" href="#">Kadra</a>
-							</li>
-						</ul>
-					</li>
-                    <li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle link-dark" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							Przedszkole
-						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-							<li>
-								<a class="dropdown-item" href="#">Opłaty</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="#">Rekrutacja</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="#">Statut</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="#">Kadra</a>
+							<li class="nav-item">
+								<a class="nav-link" aria-current="page" href="#">Kontakt</a>
 							</li>
 						</ul>
-					</li>
-					<li>
-						<a href="#" class="nav-link px-2 link-dark">Kontakt</a>
-					</li>
-				</ul>
-
-				<div class="col-md-3 mx-3 text-end">
-					<button type="button" class=" btn btn-warning bg-gradient text-white fw-bold me-2">Zaloguj</button>
+					</div>
+					
+						<div class="mx-end">
+							<button class="btn btn-warning bg-gradient text-white fw-bold " type="button">Zaloguj</button>
+						</div>
 				</div>
-			</header>
-		</div>
+			</div>
+		</nav>
 
-		<div class="container bg-white"> 
+		<div class="container"> 
             {% block body %}{% endblock %}
 		</div>
 
-			<div class="container-fluid">
-				<footer class="py-3 my-4 bg-primary bg-opacity-75">
-					<ul class="nav justify-content-center border-bottom pb-3 mb-3">
-						<li class="nav-item">
-							<a href="#" class="nav-link px-2 text-white">Aktualności</a>
+		<div class="container-fluid">
+			<footer class="py-3 my-4 bg-primary bg-opacity-75">
+			
+				<ul class="nav justify-content-center border-bottom pb-3 mb-3">
+					<li class="nav-item">
+						<a href="#" class="nav-link px-2 text-white">Aktualności</a>
+					</li>
+					<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Przedszkole
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" href="#">Opłaty</a></li>
+								<li><a class="dropdown-item" href="#">Rekrutacja</a></li>
+								<li><a class="dropdown-item" href="#">Statut</a></li>
+								<li><a class="dropdown-item" href="#">Kadra</a></li>
+							</ul>
 						</li>
-						<li class="nav-item">
-							<a href="#" class="nav-link px-2 text-white">Kontakt</a>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Żłobek
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" href="#">Opłaty</a></li>
+								<li><a class="dropdown-item" href="#">Rekrutacja</a></li>
+								<li><a class="dropdown-item" href="#">Statut</a></li>
+								<li><a class="dropdown-item" href="#">Kadra</a></li>
+							</ul>
 						</li>
-					</ul>
-					<p class="text-center text-white">&copy; 2021 Company, Inc</p>
-				</footer>
-			</div>
-		</body>
-	</html>
+					<li class="nav-item">
+						<a href="#" class="nav-link px-2 text-white">Kontakt</a>
+					</li>	
+				</ul>
+				
+				<p class="text-center text-white">&copy; 2021 Company, Inc</p>
+			</footer>
+		</div>
+	</body>
+</html>
