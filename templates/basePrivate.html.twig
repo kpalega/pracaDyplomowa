@@ -20,7 +20,7 @@
 	</head>
 	<body class="bg-secondary bg-opacity-25">
 		<div class="d-flex flex-row ">
-			<div class="col-sm-3 col-md-2 d-flex flex-column p-3 bg-primary bg-opacity-75 vh-100">
+			<div class=" col-md-2 d-flex flex-column p-3 bg-primary bg-opacity-75 vh-100">
 				<a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
 					<div class="d-flex mb-3 align-items-center justify-content-center py-3" >
 							<img class="img-fluid rounded-circle" style="width: 55%;" src="{{'/images/Przedszkole.png'}}" ></img>
@@ -34,7 +34,7 @@
 				</ul>
 				<hr style="color:white">
 				<div class="d-flex align-items-center justify-content-center">
-					<button type="button" class="flex-fill btn btn-primary active text-white">Wyloguj</button>
+					<button type="button" href="{{ path('app_logout') }}" class="flex-fill btn btn-primary active text-white">Wyloguj</button>
 				</div>
 			</div>
 			<div class="flex-row flex-fill ">
@@ -42,10 +42,10 @@
 				<div class="flex-fill">
 					<div class="d-flex p-2 justify-content-end align-items-center container-fluid bg-light">
 						<div class="">
-							<h5 class="mx-2">Zalogowano jako x !</h5>
+							<h5 class="mx-2">Zalogowano jako {{app.user.name}} {{app.user.surname}}!</h5>
 						</div>
 						<div class="">
-							<button type="button" class="btn btn-primary active text-white">Wyloguj</button>
+							<a class="btn btn-primary active text-white" href="{{ path('app_logout') }}" role="button">Wyloguj</a>
 						</div>
 					</div>
 					

@@ -1,0 +1,59 @@
+{% extends 'basePublic.html.twig' %}
+
+{% block title %}Zaloguj!{% endblock %}
+
+{% block body %}
+    <div class="container col-md-7 rounded bg-light p-3 ">
+        <form method="post">
+            <div class="d-flex flex-row justify-content-around mb-auto p-2">
+                <div class="flex-column mb-auto p-2">
+                    <h1 class="h3 mb-3 font-weight-normal">Logowanie</h1>
+                </div>
+                <div class="flex-column align-self-center mb-auto p-2">
+                    {% if app.user %}
+                        <div class="mb-3">
+                            Jesteś zalogowany/a jako {{ app.user.username }}, <a class="btn btn-primary btn-sm active text-white" href="{{ path('app_logout') }}" role="button">Wyloguj</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="d-flex align-items-center justify-content-center flex-column mb-3 p-2">
+                
+                <div class="mb-auto p-2 col-md-5">
+                    <label for="inputEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                </div>
+                <div class="mb-auto p-2 col-md-5">
+                    <label for="inputPassword">Hasło</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                </div>
+                <input type="hidden" name="_csrf_token"
+                    value="{{ csrf_token('authenticate') }}"
+                >
+
+                {#
+                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                    See https://symfony.com/doc/current/security/remember_me.html
+
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Remember me
+                        </label>
+                    </div>
+                #}
+
+                <div class="mb-auto p-2 ">
+                    <button class="btn btn-lg btn-primary" type="submit">
+                        Zaloguj
+                    </button>
+                </div>
+            </div>
+            <div class="d-flex flex-row justify-content-center mb-auto p-2">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+            </div>
+        </form>
+    </div>
+{% endblock %}

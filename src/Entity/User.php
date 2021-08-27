@@ -2,26 +2,24 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\UserTestRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * User
- *
- * @ORM\Table(name="user", indexes={@ORM\Index(name="fk_user_specialization1_idx", columns={"IDspecialization"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=UserTestRepository::class)
+ * @UniqueEntity(fields={"email"}, message="Istnieje już konto na podanym adresie email")
  */
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="IDuser", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
-    private $iduser;
+    private $IDuser;
 
     /**
      * @var string
@@ -38,40 +36,29 @@ class User
     private $surname;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="login", type="string", length=45, nullable=false)
-     */
-    private $login;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=45, nullable=false)
-     */
-    private $password;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=100, nullable=false)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
 
     /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
+    /**
      * @var bool
      *
-     * @ORM\Column(name="active", type="boolean", nullable=false)
+     * @ORM\Column(name="active", type="boolean")
      */
     private $active;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="role", type="string", length=10, nullable=false)
-     */
-    private $role;
-
+    
     /**
      * @var \Specialization
      *
@@ -82,32 +69,21 @@ class User
      */
     private $idspecialization;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Message", inversedBy="iduser")
-     * @ORM\JoinTable(name="user_saw_message",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="IDuser", referencedColumnName="IDuser")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="IDmessage", referencedColumnName="IDmessage")
-     *   }
-     * )
-     */
-    private $idmessage;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function getID(): ?int
     {
-        $this->idmessage = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->IDuser;
     }
 
-    public function getIduser(): ?int
+    public function getEmail(): ?string
     {
-        return $this->iduser;
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -133,43 +109,6 @@ class User
 
         return $this;
     }
-
-    public function getLogin(): ?string
-    {
-        return $this->login;
-    }
-
-    public function setLogin(string $login): self
-    {
-        $this->login = $login;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
     public function getActive(): ?bool
     {
         return $this->active;
@@ -178,18 +117,6 @@ class User
     public function setActive(bool $active): self
     {
         $this->active = $active;
-
-        return $this;
-    }
-
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-
-    public function setRole(string $role): self
-    {
-        $this->role = $role;
 
         return $this;
     }
@@ -207,27 +134,74 @@ class User
     }
 
     /**
-     * @return Collection|Message[]
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
      */
-    public function getIdmessage(): Collection
+    public function getUserIdentifier(): string
     {
-        return $this->idmessage;
+        return (string) $this->email;
     }
 
-    public function addIdmessage(Message $idmessage): self
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string
     {
-        if (!$this->idmessage->contains($idmessage)) {
-            $this->idmessage[] = $idmessage;
-        }
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }
 
-    public function removeIdmessage(Message $idmessage): self
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
     {
-        $this->idmessage->removeElement($idmessage);
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }
 
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
 }
