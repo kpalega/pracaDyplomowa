@@ -17,7 +17,7 @@ class Specialization
      *
      * @ORM\Column(name="IDspecialization", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue()
      */
     private $idspecialization;
 

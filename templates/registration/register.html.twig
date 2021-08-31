@@ -5,6 +5,16 @@
 	<div class="container-fluid rounded bg-light p-3 ">
 		<h2 class="p-3">Rejestracja użytkowników</h2><br/>
 
+		{% for label, messages in app.flashes %}
+			<div class="alert alert-success col-md-8 mx-auto text-center" role="alert">
+				{% for message in messages %}
+					<div class="flash-{{ label }}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			</div>
+		{% endfor %}
+
 		{{ form_start(registrationForm) }}
 		<div class="d-flex flex-column ">
 			<div class="d-flex flex-row justify-content-center">
@@ -33,8 +43,16 @@
 				<div class="mb-auto p-2 col-md-2">
 					{{ form_row(registrationForm.active) }}
 				</div>
-				<div class="mb-auto p-2 col-md-2">
+				<div class="mb-auto p-2 col-md-2" id="roles" onchange="showContent()">
 					{{ form_row(registrationForm.roles) }}
+				</div>
+			</div>
+			<div class="d-flex flex-row justify-content-center d-none" id="specialization">
+				<div class="mb-auto p-2 col-md-2">
+					{{ form_row(registrationForm.specTitle) }}
+				</div>
+				<div class="mb-auto p-2 col-md-6">
+					{{ form_row(registrationForm.specName) }}
 				</div>
 			</div>
 			<div class="d-flex flex-row justify-content-center">
@@ -43,6 +61,26 @@
 		</div>
 		{{ form_end(registrationForm) }}
 	</div>
-</div>{% endblock %}
+</div>
 
+<script>
+	function showContent() {
+		var role = document.getElementById("roles");
+		var selects = role.getElementsByTagName("select");
+		 if (selects.length > 0) {
+            value = selects[0].value;
+        }
+		if(value != "ROLE_USER") {
+			document.getElementById("specialization").classList.remove('d-none');
+			document.getElementById("specialization").classList.add('d-block');
+		} else {
+			document.getElementById("specialization").classList.remove('d-block');
+			document.getElementById("specialization").classList.add('d-none');
+
+		}
+	};
+
+</script>
+
+{% endblock %}
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Specialization;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +21,10 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+            
+            $specName = $form->get("specName")->getData();
+            $specTitle = $form->get("specTitle")->getData();
+             
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
@@ -28,12 +32,36 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            if( $specName != null){
+                
+                $entityManager = $this->getDoctrine()->getManager();    
+                $specialization = $entityManager->getRepository(Specialization::class)->findOneBy([
+                    "name" => $specName,
+                    "academictitle" => $specTitle
+                ]);
+                dump($specialization);
+
+                if($specialization == null){
+                    
+                    $specialization = new Specialization();
+                    $specialization->setAcademictitle($specTitle);
+                    $specialization->setName($specName);
+                
+                    $entityManager->persist($specialization);
+                    $entityManager->flush();  
+                } 
+                
+                $user->setIdspecialization($specialization);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
-
-            return $this->redirectToRoute('app_login');
+            
+            $this->addFlash(
+                'notice',
+                'Użytkownik został dodany!'
+            );
         }
 
         return $this->render('registration/register.html.twig', [

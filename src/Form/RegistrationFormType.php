@@ -75,6 +75,23 @@ class RegistrationFormType extends AbstractType
                 ],
                 "label" => "Kim jest użytkownik?"
             ])
+            ->add('specName', TextType::class, [
+                'label' => "Nazwa ukończonej specjalizacji",
+                'mapped' => false,
+                'required' => false
+            ])
+            ->add('specTitle', ChoiceType::class, [
+                'choices' => [
+                    "" => "",
+                    "Licencjat" => "lic",
+                    "Inżynier" => "inż",
+                    "Magister" => "mgr",
+                    "Doktor" => "dr"
+                ],
+                "label" => "Stopień naukowy",
+                "mapped" => false,
+                'required' => false
+            ])
         ;
 
         $builder

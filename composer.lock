@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f138858bc983150aa3ffc7d1ea17479f",
+    "content-hash": "b327b0b2281276ba4ecbbecff4145d62",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -8358,6 +8358,63 @@
             "time": "2021-08-04T15:41:51+00:00"
         },
         {
+            "name": "twbs/bootstrap-sass",
+            "version": "v3.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/bootstrap-sass.git",
+                "reference": "b34765d8a6aa775816c59012b2d6b30c4c66a8e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/bootstrap-sass/zipball/b34765d8a6aa775816c59012b2d6b30c4c66a8e9",
+                "reference": "b34765d8a6aa775816c59012b2d6b30c4c66a8e9",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Otto"
+                },
+                {
+                    "name": "Thomas McDonald"
+                },
+                {
+                    "name": "Tristan Harward"
+                },
+                {
+                    "name": "Peter Gumeson"
+                },
+                {
+                    "name": "Gleb Mazovetskiy"
+                },
+                {
+                    "name": "Jacob Thornton"
+                }
+            ],
+            "description": "bootstrap-sass is a Sass-powered version of Bootstrap 3, ready to drop right into your Sass powered applications.",
+            "homepage": "http://github.com/twbs/bootstrap-sass",
+            "keywords": [
+                "bootstrap",
+                "css",
+                "sass"
+            ],
+            "support": {
+                "issues": "https://github.com/twbs/bootstrap-sass/issues",
+                "source": "https://github.com/twbs/bootstrap-sass/tree/v3.4.1"
+            },
+            "time": "2019-02-13T18:58:58+00:00"
+        },
+        {
             "name": "twig/twig",
             "version": "v3.3.2",
             "source": {
@@ -8670,7 +8727,8 @@
         "php": ">=7.2.5",
         "ext-ctype": "*",
         "ext-curl": "*",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "composer-plugin-api": "^2.1"
     },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"
