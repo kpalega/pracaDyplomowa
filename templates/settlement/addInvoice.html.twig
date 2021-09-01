@@ -1,0 +1,60 @@
+{% extends "basePrivate.html.twig" %}
+
+{% block body %}
+    <div class="container-fluid rounded bg-light p-3">
+		
+        <h2 class="p-3">Dodawanie faktur</h2><br/>
+        {% for label, messages in app.flashes %}
+			<div class="alert alert-success col-md-8 mx-auto text-center" role="alert">
+				{% for message in messages %}
+					<div class="flash-{{ label }}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			</div>
+		{% endfor %}
+
+        {{ form_start(invoiceForm) }}
+            <div class="d-flex flex-column ">
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="mb-auto p-2 col-md-4">
+                        {{ form_row(invoiceForm.invoicenumber) }}
+                    </div>
+                    <div class="mb-auto p-2 col-md-4">
+                        {{ form_row(invoiceForm.name) }}
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="mb-auto p-2 col-md-2">
+                        {{ form_widget(invoiceForm.date.year) }}
+                    </div>
+                    <div class="mb-auto p-2">
+                        <p> - </p>
+                    </div>
+                    <div class="mb-auto p-2 col-md-2">
+                        {{ form_widget(invoiceForm.date.month) }}
+                    </div>
+                    <div class="mb-auto p-2">
+                        <p> - </p>
+                    </div>
+                    <div class="mb-auto p-2 col-md-2">
+                        {{ form_widget(invoiceForm.date.day) }}
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="mb-auto p-2 col-md-2">
+                        {{ form_row(invoiceForm.value) }}
+                    </div>
+                    <div class="mb-auto p-2 col-md-6">
+                        {{ form_row(invoiceForm.categoryId) }}
+                    </div>
+                </div>
+                <div class="d-flex flex-row justify-content-center p-3">
+                    <button type="submit" class="btn btn-primary">Zarejestruj fakturę</button>
+                </div>
+            </div>
+		{{ form_end(invoiceForm) }}
+    </div>
+{% endblock %}

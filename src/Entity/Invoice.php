@@ -13,11 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
 class Invoice
 {
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="invoiceNumber", type="integer", nullable=false)
+     * @ORM\Column(name="invoiceNumber", type="string", length=16, nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $invoicenumber;
 
@@ -52,7 +51,7 @@ class Invoice
      */
     private $idcategory;
 
-    public function getInvoicenumber(): ?int
+    public function getInvoicenumber(): ?string
     {
         return $this->invoicenumber;
     }
@@ -105,5 +104,17 @@ class Invoice
         return $this;
     }
 
+    /**
+     * Set the value of invoicenumber
+     *
+     * @param  int  $invoicenumber
+     *
+     * @return  self
+     */ 
+    public function setInvoicenumber(string $invoicenumber)
+    {
+        $this->invoicenumber = $invoicenumber;
 
+        return $this;
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Specialization;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,24 +33,23 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            if( $specName != null){
+            if( $specName != null && $user->getRoles() != "ROLE_USER"){
                 
                 $entityManager = $this->getDoctrine()->getManager();    
                 $specialization = $entityManager->getRepository(Specialization::class)->findOneBy([
                     "name" => $specName,
                     "academictitle" => $specTitle
                 ]);
-                dump($specialization);
 
                 if($specialization == null){
                     
                     $specialization = new Specialization();
                     $specialization->setAcademictitle($specTitle);
                     $specialization->setName($specName);
-                
+                   
                     $entityManager->persist($specialization);
-                    $entityManager->flush();  
-                } 
+                    $entityManager->flush();                      
+                }
                 
                 $user->setIdspecialization($specialization);
             }
@@ -57,11 +57,16 @@ class RegistrationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-            
+
             $this->addFlash(
                 'notice',
                 'Użytkownik został dodany!'
             );
+            
+            unset($user);
+            unset($form);
+            $user = new User();
+            $form = $this->createForm(RegistrationFormType::class, $user);
         }
 
         return $this->render('registration/register.html.twig', [

@@ -20,17 +20,29 @@
 	</head>
 	<body class="bg-secondary bg-opacity-25">
 		<div class="d-flex flex-row ">
-			<div class=" col-md-2 d-flex flex-column p-3 bg-primary bg-opacity-75 vh-100">
+			<div class=" col-md-2 d-flex flex-column p-3 bg-primary bg-opacity-75 sticky-top vh-100">
 				<a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
 					<div class="d-flex mb-3 align-items-center justify-content-center py-3" >
 							<img class="img-fluid rounded-circle" style="width: 55%;" src="{{'/images/Przedszkole.png'}}" ></img>
 					</div>
 				</a>
 				<ul class="nav nav-pills flex-column mb-auto align-items-start"  style="height: 250px;">
-					<li class="mb-auto nav-item"><a href="#" class="nav-link link-light"><h6>Strona główna</h6></a></li>
-					<li class="mb-auto nav-item"><a href="#" class="nav-link link-light"><h6>Wiadomości</h6></a></li>
-					<li class="mb-auto nav-item"><a href="#" class="nav-link link-light"><h6>Praca domowa</h6></a></li>
-					<li class="mb-auto nav-item"><a href="#" class="nav-link link-light"><h6>Dokumenty</h6></a></li>
+					
+					<li class="mb-auto nav-item text-wrap"><a href="#" class="nav-link link-light {% if is_granted( "ROLE_ADMIN" ) %} d-none {% endif %}"><h6>Strona główna</h6></a></li>
+
+					{% if is_granted( "ROLE_ADMIN" ) %}
+					<li class="mb-auto nav-item text-wrap"><a href="#" class="nav-link link-light"><h6>Panel administracyjny</h6></a></li>
+					{% endif %}
+				
+					{% if is_granted( "ROLE_TEACHER" ) %}
+					<li class="mb-auto nav-item text-wrap"><a href="#" class="nav-link link-light"><h6>Panel nauczycielski</h6></a></li>
+					{% endif %}
+
+					<li class="mb-auto nav-item text-wrap"><a href="#" class="nav-link link-light"><h6>Aktualności</h6></a></li>
+					<li class="mb-auto nav-item text-wrap"><a href="#" class="nav-link link-light"><h6>Wiadomości</h6></a></li>
+					<li class="mb-auto nav-item text-wrap"><a href="#" class="nav-link link-light"><h6>Dokumenty</h6></a></li>
+					<li class="mb-auto nav-item text-wrap"><a href="#" class="nav-link link-light {% if is_granted( "ROLE_ADMIN" ) %} d-none {% endif %}"><h6>Praca domowa</h6></a></li>
+
 				</ul>
 				<hr style="color:white">
 				<div class="d-flex align-items-center justify-content-center">
