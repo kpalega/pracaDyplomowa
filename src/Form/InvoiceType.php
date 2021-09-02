@@ -53,7 +53,6 @@ class InvoiceType extends AbstractType
             ])
             ->add('value', MoneyType::class, [
                 'label' => "Wartość faktury",
-                'divisor' => 100,
                 'currency' => "PLN",
                 'constraints' => [
                     new NotBlank([

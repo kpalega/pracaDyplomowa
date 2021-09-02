@@ -2,6 +2,72 @@
 
 
 {% block body %}
+     <div class="container-fluid rounded bg-light p-3">
+        
+        <div class="d-flex flex-column">
+                <div class="mb-auto ">
+                    <h2 class="p-3">Przegląd rozliczeń</h2><br/>
+                </div>
+            <div class="d-flex flex-row justify-content-end">
+                <div class="mb-auto flex-column">
+                    <div class="btn-group p-3" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-primary">Dodaj nową fakturę</button>
+                        <button type="button" class="btn btn-primary">Rozliczenie za miesiąc x</button>
+                        <button type="button" class="btn btn-primary">Rozliczenie za rok x</button>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-row justify-content-between px-4">
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Numer faktury</th>
+                        <th scope="col">Nazwa</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Wartość</th>
+                        <th scope="col">Kategoria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for invoice in invoices %}
+                    <tr>
+                        <td>{{invoice.invoiceNumber}}</td>
+                        <td>{{invoice.name}}</td>
+                        <td>{{invoice.date|date('Y-m-d')}}</td>
+                        <td>{{invoice.value}}</td>
+                        <td>{{invoice.idcategory.name}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
 
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" >
+                    <a class="page-link" href="{{ path(app.request.attributes.get('_route'), { 'page': app.request.attributes.get('_route_params').page - 1}) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                    </li>
+                    {% if pages > 1 %}
 
+                        {% for i in 1 .. pages - 1 %}
+                        <li class="page-item"><a class="page-link" href="{{ path('settlement', {'page': i}) }}" > {{i}} </a></li>
+                        {% endfor %}
+                    
+                        {% else %}
+                        <li class="page-item"><a class="page-link" href="{{ path('settlement', {'page': 1}) }}" > 1 </a></li>
+
+                    {% endif %}
+                    <li class="page-item">
+                    <a class="page-link"href="{{path(app.request.attributes.get('_route'), { 'page': app.request.attributes.get('_route_params').page + 1}) }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
+    
 {% endblock %}

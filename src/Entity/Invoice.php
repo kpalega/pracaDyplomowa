@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Invoice
- *
  * @ORM\Table(name="invoice", indexes={@ORM\Index(name="fk_invoice_category1_idx", columns={"idcategory"})})
  * @ORM\Entity
  */
