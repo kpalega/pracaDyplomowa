@@ -38,7 +38,7 @@ class News
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date", nullable=false)
+     * @ORM\Column(name="date", type="datetime", nullable=false)
      */
     private $date;
 
@@ -47,7 +47,7 @@ class News
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="IDuser", referencedColumnName="IDuser")
+     *   @ORM\JoinColumn(name="IDuser", referencedColumnName="iduser")
      * })
      */
     private $iduser;

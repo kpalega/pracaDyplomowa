@@ -1,0 +1,90 @@
+{% extends "basePrivate.html.twig" %}
+
+
+{% block body %}
+     <div class="container-fluid rounded bg-light p-3">
+        
+        <div class="d-flex flex-column">
+            <div class="mb-auto ">
+                <h2 class="p-3">Kadra</h2>
+            </div>
+   
+     <div class="d-flex flex-row justify-content-between px-4">
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Imię</th>
+                        <th scope="col">Nazwisko</th>
+                        <th scope="col">Stanowisko</th>
+                        <th scope="col">Ilość pozostałych dni urlopu</th>
+                        <th scope="col">Ilość przepracowanych lat</th>
+                        <th scope="col">Aktywny</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>a</td>
+                        <td>a</td>
+                        <td>a</td>
+                        <td>a</td>
+                        <td><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#vacationModal">Ustal urlop</button></td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+
+            <nav aria-label="Page navigation example">
+            <p> {{app.request.query.get("page")}}</p>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item
+                        {% if app.request.get("page") == 1 %} disabled {% endif %}"
+                    >
+                    <a class="page-link" href="{{ path(app.request.attributes.get('_route'), { 'page': app.request.attributes.get('_route_params').page - 1}) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo; </span>
+                    </a>
+                    </li>
+                    {% if pages > 1 %}
+
+                        {% for i in 1 .. pages %}
+                        <li class="page-item"><a class="page-link" href="{{ path('personnel', { 'page': i}) }}" > {{i}} </a></li>
+                        
+                        {% endfor %}
+
+                        <li class="page-item
+                        {% if app.request.get("page") == pages %} disabled {% endif %}">
+                            <a class="page-link" href="{{path(app.request.attributes.get('_route'), { 'page': app.request.attributes.get('_route_params').page + 1}) }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+
+                        {% else %}
+                        <li class="page-item"><a class="page-link" href="{{ path('personnel', {'page': 1}) }}" > 1 </a></li>
+                        <li class="page-item disabled">
+                            <a class="page-link" href="{{path(app.request.attributes.get('_route'), { 'page': app.request.attributes.get('_route_params').page + 1}) }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+
+         <div class="modal fade" id="vacationModal" tabindex="-1" aria-labelledby="vacationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="vacationModalLabel">Ustalenie dni urlopu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="d-flex flex-row justify-content-between px-4">
+                
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    {% endblock %}
+

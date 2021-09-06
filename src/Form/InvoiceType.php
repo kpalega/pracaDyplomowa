@@ -33,7 +33,7 @@ class InvoiceType extends AbstractType
             ])
             ->add('date', DateType::class, [
                 'label' => "Data wystawienia",
-                'widget' => 'choice',
+                'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'placeholder' => [
                     'year' => 'Rok', 'month' => 'Miesiąc', 'day' => 'Dzień',
