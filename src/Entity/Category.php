@@ -27,6 +27,20 @@ class Category
      * @ORM\Column(name="name", type="string", length=100, nullable=false)
      */
     private $name;
+    
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="value",  type="float", precision=10, scale=0, nullable=false)
+     */
+    private $value;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="specialValue",  type="float", precision=10, scale=0, nullable=false)
+     */
+    private $specialValue;
 
     public function getIdcategory(): ?int
     {
@@ -46,4 +60,52 @@ class Category
     }
 
 
+
+    /**
+     * Get the value of value
+     *
+     * @return  float
+     */ 
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Set the value of value
+     *
+     * @param  float  $value
+     *
+     * @return  self
+     */ 
+    public function setValue(float $value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of specialValue
+     *
+     * @return  float
+     */ 
+    public function getSpecialValue()
+    {
+        return $this->specialValue;
+    }
+
+    /**
+     * Set the value of specialValue
+     *
+     * @param  float  $specialValue
+     *
+     * @return  self
+     */ 
+    public function setSpecialValue(float $specialValue)
+    {
+        $this->specialValue = $specialValue;
+
+        return $this;
+    }
 }

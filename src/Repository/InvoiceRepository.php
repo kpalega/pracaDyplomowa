@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Invoice;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Invoice|null find($id, $lockMode = null, $lockVersion = null)
@@ -54,12 +53,13 @@ class InvoiceRepository
     *   @return Invoice[]
     */
 
-    public function findByDate($date, $limit, $offset)
+    public function findByDate($dateEnd, $dateStart, $limit, $offset)
     {
         
          $result = $this->repository->createQueryBuilder('i')
-            ->andWhere('i.date < :val')
-            ->setParameter('val', $date)
+            ->andWhere(' i.date >= :valStart AND i.date <= :valEnd')
+            ->setParameter('valEnd', $dateEnd)
+            ->setParameter('valStart', $dateStart)
             ->orderBy('i.date', 'DESC')
             ->setFirstResult( $offset )
             ->setMaxResults( $limit )
@@ -69,14 +69,29 @@ class InvoiceRepository
         return $result;
     }
 
-    public function count()
+    public function countPages($dateEnd, $dateStart, $LIMIT) : int
     {
         
          $result = $this->repository->createQueryBuilder('i')
             ->select('COUNT (i.invoicenumber)')
+            ->where('i.date > :valStart AND i.date < :valEnd')
+            ->setParameter('valEnd', $dateEnd)
+            ->setParameter('valStart', $dateStart)
             ->getQuery()
             ->getSingleScalarResult();
         ;
-        return $result;
+        return $result/$LIMIT;
     }
+
+    public function getInvoicesByCategory($category, $dateEnd, $dateStart){
+
+        return $this->repository->createQueryBuilder('i')
+        ->where('i.date > :valStart AND i.date <= :valEnd AND i.idcategory = :cat')
+        ->setParameter('valEnd', $dateEnd)
+        ->setParameter('valStart', $dateStart)
+        ->setParameter('cat', $category)
+        ->getQuery()
+        ->getResult();
+    }
+
 }

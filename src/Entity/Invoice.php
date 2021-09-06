@@ -41,6 +41,13 @@ class Invoice
     private $value;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="special", type="boolean")
+     */
+    private $special;
+
+    /**
      * @var \Category
      *
      * @ORM\ManyToOne(targetEntity="Category")
@@ -113,6 +120,30 @@ class Invoice
     public function setInvoicenumber(string $invoicenumber)
     {
         $this->invoicenumber = $invoicenumber;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of special
+     *
+     * @return  bool
+     */ 
+    public function getSpecial()
+    {
+        return $this->special;
+    }
+
+    /**
+     * Set the value of special
+     *
+     * @param  bool  $special
+     *
+     * @return  self
+     */ 
+    public function setSpecial(bool $special)
+    {
+        $this->special = $special;
 
         return $this;
     }

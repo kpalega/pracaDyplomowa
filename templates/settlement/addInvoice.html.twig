@@ -26,6 +26,7 @@
                 </div>
 
                 <div class="d-flex flex-row justify-content-center">
+                    
                     <div class="mb-auto p-2 col-md-2">
                         {{ form_widget(invoiceForm.date.year) }}
                     </div>
@@ -51,6 +52,13 @@
                         {{ form_row(invoiceForm.categoryId) }}
                     </div>
                 </div>
+                
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="mb-auto p-2 col-md-2">
+                            {{ form_widget(invoiceForm.special) }}
+                    </div>
+                </div>
+
                 <div class="d-flex flex-row justify-content-center p-3">
                     <button type="submit" class="btn btn-primary">Zarejestruj fakturę</button>
                 </div>
