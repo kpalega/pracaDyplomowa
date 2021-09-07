@@ -31,9 +31,9 @@ class Disability
     private $name;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="decision", type="integer", nullable=false)
+     * @ORM\Column(name="decision", type="string", length=20, nullable=false)
      */
     private $decision;
 
@@ -69,12 +69,12 @@ class Disability
         return $this;
     }
 
-    public function getDecision(): ?int
+    public function getDecision(): ?string
     {
         return $this->decision;
     }
 
-    public function setDecision(int $decision): self
+    public function setDecision(string $decision): self
     {
         $this->decision = $decision;
 

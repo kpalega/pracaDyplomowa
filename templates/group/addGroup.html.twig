@@ -1,0 +1,35 @@
+{% extends "basePrivate.html.twig" %}
+
+
+{% block body %}
+     <div class="container-fluid rounded bg-light p-3">
+        
+        <h2 class="p-3">Dodaj dziecko</h2>
+        {% for label, messages in app.flashes %}
+			<div class="alert alert-success col-md-8 mx-auto text-center" role="alert">
+				{% for message in messages %}
+					<div class="flash-{{ label }}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			</div>
+		{% endfor %}    
+
+         {{ form_start(groupForm) }}
+            <div class="d-flex flex-column align-items-center">
+                <div class="mb-auto p-2 col-md-8">
+                    {{ form_row(groupForm.name) }}
+                </div>
+            
+                <div class="mb-auto p-2 col-md-4" >
+                    {{ form_row(groupForm.active) }}
+                </div>
+                
+                <div class="d-flex flex-row justify-content-center p-3">
+                    <button type="submit" class="btn btn-primary">Zapisz grupę</button>
+                </div>
+            </div>
+		{{ form_end(groupForm) }}
+    </div>
+
+{% endblock %}

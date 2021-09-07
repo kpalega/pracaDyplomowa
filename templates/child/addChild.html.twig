@@ -1,0 +1,70 @@
+{% extends "basePrivate.html.twig" %}
+
+
+{% block body %}
+     <div class="container-fluid rounded bg-light p-3">
+        
+        <h2 class="p-3">Dodaj dziecko</h2>
+        {% for label, messages in app.flashes %}
+			<div class="alert alert-success col-md-8 mx-auto text-center" role="alert">
+				{% for message in messages %}
+					<div class="flash-{{ label }}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			</div>
+		{% endfor %}    
+
+         {{ form_start(childForm) }}
+            <div class="d-flex flex-column align-items-center">
+			    <div class="d-flex flex-row justify-content-center">
+                    <div class="mb-auto p-2 col-md-8">
+                        {{ form_row(childForm.name) }}
+                    </div>
+                    <div class="mb-auto p-2 col-md-8" >
+                        {{ form_row(childForm.surname) }}
+                    </div>
+                </div>
+
+                <div class="mb-auto p-2 col-md-4" >
+                    {{ form_row(childForm.active) }}
+                </div>
+                <div class="d-flex flex-row justify-content-center p-2 col-md-8" id="hasDisability" onchange="showContent()" >
+                    {{ form_row(childForm.disability) }}
+                </div>
+                
+                <div class="d-flex flex-row justify-content-center d-none" id="disability">
+                    <div class="mb-auto p-2 col-md-8" >
+                        {{ form_row(childForm.disabilityName) }}
+                    </div>
+                    <div class="mb-auto p-2 col-md-8" >
+                        {{ form_row(childForm.disabilityDecision) }}
+                    </div>
+                </div>
+                
+                <div class="d-flex flex-row justify-content-center p-3">
+                    <button type="submit" class="btn btn-primary">Zapisz dziecko</button>
+                </div>
+            </div>
+		{{ form_end(childForm) }}
+    </div>
+
+
+    <script>
+        function showContent() {
+            var hasDisability = document.getElementById("hasDisability");
+            var checkbox = hasDisability.getElementsByTagName("input");
+            console.log(checkbox);
+		        
+            if( checkbox[0].checked == true) {
+                document.getElementById("disability").classList.remove('d-none');
+                document.getElementById("disability").classList.add('d-block');
+            } else {
+                document.getElementById("disability").classList.remove('d-block');
+                document.getElementById("disability").classList.add('d-none');
+
+            }
+        };
+
+    </script>
+{% endblock %}

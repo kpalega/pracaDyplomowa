@@ -38,20 +38,6 @@ class Child
     private $surname;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="login", type="string", length=45, nullable=false)
-     */
-    private $login;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=45, nullable=false)
-     */
-    private $password;
-
-    /**
      * @var bool
      *
      * @ORM\Column(name="active", type="boolean", nullable=false)
@@ -138,30 +124,6 @@ class Child
     public function setSurname(string $surname): self
     {
         $this->surname = $surname;
-
-        return $this;
-    }
-
-    public function getLogin(): ?string
-    {
-        return $this->login;
-    }
-
-    public function setLogin(string $login): self
-    {
-        $this->login = $login;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
 
         return $this;
     }

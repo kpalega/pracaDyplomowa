@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Group
  *
- * @ORM\Table(name="group")
+ * @ORM\Table(name="childgroup")
  * @ORM\Entity
  */
 class Group
@@ -29,6 +29,13 @@ class Group
      * @ORM\Column(name="name", type="string", length=75, nullable=false)
      */
     private $name;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="active", type="boolean", nullable=false)
+     */
+    private $active;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -62,6 +69,18 @@ class Group
         return $this;
     }
 
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+    
     /**
      * @return Collection|Child[]
      */
