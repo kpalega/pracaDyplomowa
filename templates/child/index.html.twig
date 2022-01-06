@@ -21,6 +21,7 @@
                         <th scope="col">Imię</th>
                         <th scope="col">Nazwisko</th>
                         <th scope="col">Aktywny</th>
+                        <th scope="col">Grupa</th>
                         <th scope="col">Niepełnosprawność</th>
                         <th scope="col">Oświadczenie</th>
                         <th scope="col"></th>
@@ -37,6 +38,11 @@
                                 {% endif %}    
                             </td>
                             <td>
+                                {% for class in child.idclass %}
+                                    {{ class.name }},
+                                {% endfor %}
+                            </td>
+                            <td>
                                 {% for disability in child.iddisability %}
                                     {{ disability.name }}
                                 {% endfor %}
@@ -48,7 +54,7 @@
                             </td>
                             <td>
                                 {% if child.active is same as true %} 
-                                   <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                   <button id="archive" data-id="{{child.idchild}}" type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                         Zaarchiwizuj
                                     </button>
                                 {% endif %}
@@ -110,11 +116,35 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-            <button type="button" class="btn btn-primary">Tak</button>
+            <button id="accept" data-id="0" type="button" class="btn btn-primary">Tak</button>
         </div>
         </div>
     </div>
     </div>
 
+
+ <script>
+        $(document).on("click", "#archive", function () {
+            var childId = $(this).data('id');
+            document.getElementById('accept').dataset.id = childId;
+        });
+
+        $(document).on("click", "#accept", function () {
+            var child = $(this).data('id');
+            $.ajax({
+            type: 'POST',
+            url: "/archiveChild/"+child ,
+            dataType: 'json', 
+            
+            success:function(data){
+                window.location.href = "/childrenbook/1";
+                
+            },
+            error:function(xhr, textStatus, errorThrown){
+                alert('Ajax request failed.'); 
+            }
+            })
+        });
+    </script>
 {% endblock %}
 

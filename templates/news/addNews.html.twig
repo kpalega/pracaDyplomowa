@@ -1,21 +1,19 @@
 {% extends "basePrivate.html.twig" %}
 
+{% block stylesheets %}
+    {{ encore_entry_link_tags('post') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('post') }}
+{% endblock %}
 
 {% block body %}
      <div class="container-fluid rounded bg-light p-3">
         
         <h2 class="p-3">Dodaj artykuł</h2>
-        {% for label, messages in app.flashes %}
-			<div class="alert alert-success col-md-8 mx-auto text-center" role="alert">
-				{% for message in messages %}
-					<div class="flash-{{ label }}">
-						{{ message }}
-					</div>
-				{% endfor %}
-			</div>
-		{% endfor %}    
 
-         {{ form_start(newsForm) }}
+         {{ form_start(newsForm, {attr: {'id': 'tinymce_editor','data-news-id': idnews }}) }}
             <div class="d-flex flex-column align-items-center">
                 <div class="mb-auto p-2 col-md-8">
                     {{ form_row(newsForm.topic) }}
@@ -29,5 +27,9 @@
             </div>
 		{{ form_end(newsForm) }}
     </div>
+
+    <script>
+
+    </script>
 
 {% endblock %}

@@ -26,11 +26,7 @@ class NewsType extends AbstractType
         ])
         ->add('content', TextareaType::class, [
             'label' => "Treść",
-            'constraints' => [
-                new NotBlank([
-                    'message' => 'Proszę podać tytuł',
-                ])
-            ]
+            'required' => false
         ]);
     }
 

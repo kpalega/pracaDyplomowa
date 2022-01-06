@@ -1,0 +1,23 @@
+{% extends "basePrivate.html.twig" %}
+
+
+{% block largeBody %}
+        
+        <div class=" p-3 mx-3 bg-light shadow overflow-auto">
+            {{ form_start(form) }}
+            <div class=" container-fluid rounded p-3 bg-secondary bg-opacity-25">    
+                {{ form_row(form.fromUser) }}
+                {{ form_row(form.toUser) }}
+                {{ form_row(form.topic) }}
+                
+            </div>
+            <div class="my-2 p-3 container-fluid sticky-top">
+                {{ form_row(form.content) }}
+            </div>
+            <div class="d-flex flex-row justify-content-center p-3">
+                <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
+            </div>
+            {{ form_end(form)}}
+        </div>
+
+{% endblock %}

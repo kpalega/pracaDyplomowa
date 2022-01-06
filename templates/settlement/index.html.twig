@@ -5,43 +5,47 @@
      <div class="container-fluid rounded bg-light p-3">
         
         <div class="d-flex flex-column">
-                <div class="mb-auto ">
-                    <h2 class="p-3">Przegląd rozliczeń</h2>
+                <div class="d-flex flex-row justify-content-between ">
+                    <div class="mb-auto ">
+                        <h2 class="p-3">Przegląd rozliczeń</h2>
+                    </div>
+                    <div class="mb-auto p-3">
+                        <a class="btn btn-primary" href="{{ path('addInvoice') }}"> <i class="bi bi-plus-circle"></i>&emsp;Dodaj fakturę</a>
+                    </div>
                 </div>
             <div class="d-flex flex-row justify-content-between">
                 <div class="mb-auto mx-3 p-3 flex-column">
                     <ul class="pagination">
                         <li class="page-item">
-                        <a class="page-link" href="{{path(app.request.attributes.get('_route'), { 'modifier': app.request.attributes.get('_route_params').modifier - 1, 'page': app.request.attributes.get('_route_params').page}) }}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
+                        <a class="page-link" href="{{path(app.request.attributes.get('_route'), { 'modifier': app.request.attributes.get('_route_params').modifier - 1, 'page': 1}) }}" aria-label="Previous">
+                            <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
                         </a>
                         </li>
-                        <li class="page-item disabled"><a class="page-link" href="#">{{month}}</a></li>
+                        <li class="page-item disabled"><a class="page-link" href="#">{{month}} {{year}}</a></li>
                         <li class="page-item">
-                        <a class="page-link" href={{path(app.request.attributes.get('_route'), { 'modifier': app.request.attributes.get('_route_params').modifier + 1, 'page': app.request.attributes.get('_route_params').page}) }} aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
+                        <a class="page-link" href={{path(app.request.attributes.get('_route'), { 'modifier': app.request.attributes.get('_route_params').modifier + 1, 'page': 1}) }} aria-label="Next">
+                            <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
                         </a>
                         </li>
                     </ul>
                 </div>
                 <div class="mb-auto flex-column">
                     <div class="btn-group p-3" role="group" aria-label="Basic example">
-                        <a class="btn btn-primary" href="{{ path('addInvoice') }}">Dodaj nową fakturę</a>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#monthModal">Rozliczenie za {{month}}</button>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#yearModal">Rozliczenie za rok {{year}}</button>
+                        <button type="button" onclick='calculateMonth("{{date|date('Y-m-d G:i')}}")' class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">Rozliczenie za {{month}}</button>
+                        <button type="button" onclick='calculateYear("{{date|date('Y-m-d G:i')}}")' id="yearBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">Rozliczenie za rok {{year}}</button>
                     </div>
                 </div>
             </div>
 
-            <div class="d-flex flex-row justify-content-between px-4">
-                <table class="table">
+            <div class="px-4 table-responsive">
+                <table class="table table-striped align-middle">
                 <thead>
                     <tr>
                         <th scope="col">Numer faktury</th>
                         <th scope="col">Nazwa</th>
                         <th scope="col">Data</th>
                         <th scope="col">Wartość</th>
-                        <th scope="col">Wartość specialna</th>
+                        <th class="text-center" scope="col">Wartość specialna</th>
                         <th scope="col">Kategoria</th>
                     </tr>
                 </thead>
@@ -52,9 +56,9 @@
                         <td>{{invoice.name}}</td>
                         <td>{{invoice.date|date('Y-m-d')}}</td>
                         <td>{{invoice.value}}</td>
-                        <td>
-                            {% if invoice.special is same as true %} Tak 
-                            {% else %} Nie
+                        <td class="text-center">
+                            {% if invoice.special is same as true %} <span><i class="bi bi-check-circle-fill text-success" style="font-size: 1.2rem; "></i></span>
+                            {% else %} <i class="bi bi-x-circle-fill text-danger" style="font-size: 1.2rem; "></i>
                             {% endif %}
                         </td>
                         <td><div class="md-col-3">{{invoice.idcategory.name}}</div></td>
@@ -70,29 +74,32 @@
                     <li class="page-item
                         {% if app.request.get("page") == 1 %} disabled {% endif %}"
                     >
-                    <a class="page-link" href="{{ path(app.request.attributes.get('_route'), { 'modifier': app.request.attributes.get('_route_params').modifier, 'page': app.request.attributes.get('_route_params').page - 1}) }}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo; </span>
+                    <a class="page-link" href="{{path(app.request.attributes.get('_route'), { 'modifier': app.request.attributes.get('_route_params').modifier, 'page': app.request.attributes.get('_route_params').page - 1}) }}" aria-label="Previous">
+                        <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
                     </a>
                     </li>
                     {% if pages > 1 %}
 
                         {% for i in 1 .. pages %}
+                        {% if  app.request.attributes.get('_route_params').page == i  %}
+                        <li class="page-item  disabled"><a class="page-link" > {{i}} </a></li>
+                         {% else %}
                         <li class="page-item"><a class="page-link" href="{{ path('settlement', {'modifier': app.request.attributes.get('_route_params').modifier, 'page': i}) }}" > {{i}} </a></li>
-                        
+                        {% endif %}
                         {% endfor %}
 
                         <li class="page-item
                         {% if app.request.get("page") == pages %} disabled {% endif %}">
                             <a class="page-link" href="{{path(app.request.attributes.get('_route'), { 'modifier': app.request.attributes.get('_route_params').modifier, 'page': app.request.attributes.get('_route_params').page + 1}) }}" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
+                                <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
                             </a>
                         </li>
 
                         {% else %}
                         <li class="page-item"><a class="page-link" href="{{ path('settlement', {'modifier': app.request.attributes.get('_route_params').modifier, 'page': 1}) }}" > 1 </a></li>
                         <li class="page-item disabled">
-                            <a class="page-link" href="{{path(app.request.attributes.get('_route'), { 'modifier': app.request.attributes.get('_route_params').modifier, 'page': app.request.attributes.get('_route_params').page + 1}) }}" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
+                            <a class="page-link"  href="{{path(app.request.attributes.get('_route'), { 'modifier': app.request.attributes.get('_route_params').modifier, 'page': app.request.attributes.get('_route_params').page + 1}) }}" aria-label="Next">
+                                <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
                             </a>
                         </li>
                     {% endif %}
@@ -101,72 +108,113 @@
         </div>
     </div>
 
-    <!-- Montly modal -->
-    <div class="modal fade" id="monthModal" tabindex="-1" aria-labelledby="monthModalLabel" aria-hidden="true">
+    <!-- Modal -->
+    <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="monthModalLabel">Rozliczenie za miesiąc {{month}}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title" id="ModalLabel"></h5>
+            <button type="button" onclick='erase()' class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <div class="d-flex flex-row justify-content-between px-4">
-                <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Nazwa</th>
-                        <th scope="col">Wartość zwykła</th>
-                        <th scope="col">Wartość specialna</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for category in categoriesMonth %}
-                    <tr>
-                        <td>{{category.name}}</td>
-                        <td>{{category.value}}</td>
-                        <td>{{category.specialValue}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-                </table>
+            <div class="d-flex flex-column px-4">
+                
+                <div class="d-flex flex-row p-2 justify-content-center ">
+                    <div id="loader" class="spinner-border d-none" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                
+                <div class="d-flex flex-row p-2">
+                    <table id='tableModal' class="table">
+                    </table>
+                </div>
             </div>
         </div>
         </div>
     </div>
     </div>
 
-    <!-- Yearly modal -->
-    <div class="modal fade" id="yearModal" tabindex="-1" aria-labelledby="yearModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="yearModalLabel">Rozliczenie za rok {{year}}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="d-flex flex-row justify-content-between px-4">
-                <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Nazwa</th>
-                        <th scope="col">Wartość</th>
-                        <th scope="col">Wartość specialna</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for category in categoriesYear %}
-                    <tr>
-                        <td>{{category.name}}</td>
-                        <td>{{category.value}}</td>
-                        <td>{{category.specialValue}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-                </table>
-            </div>
-        </div>
-        </div>
-    </div>
-    </div>
+    <script>
+
+        function calculateMonth( date ) {
+            console.log(date)
+            $('#ModalLabel').append("Rozliczenie za {{month}}")
+            $.ajax({
+            type: 'POST',
+            url: "/ajaxMonth" ,
+            data: {date: date},
+            dataType: 'json', 
+            
+            beforeSend:function () {
+                document.getElementById('loader').classList.remove('d-none');
+            },
+            complete:function(){
+                document.getElementById('loader').classList.add('d-none');
+            },
+            success:function(data){
+                   $('#tableModal').append("<thead><tr><th scope='col'>Nazwa</th><th scope='col'>Wartość zwykła</th><th scope='col'>Wartość specialna</th></tr></thead> ")
+                     for(i = 0; i < data.length; i++) {  
+                        category = data[i];  
+                        var e = $('<tbody><tr><td id = "name">  </td><td id = "value">  </td><td id = "specialValue">  </td></tr>');
+                        
+                        $('#name', e).html(category['name']);  
+                        $('#value', e).html(category['value']);  
+                        $('#specialValue', e).html(category['specialValue']);  
+                        $('#tableModal').append(e);  
+
+                        
+                     }
+                     $('#tableModal').append("</tbody>")
+            },
+            error:function(xhr, textStatus, errorThrown){
+                alert('Ajax request failed.'); 
+            }
+            })
+        }
+
+        function calculateYear( date ) {
+            $('#ModalLabel').append("Rozliczenie za {{year}}")
+            $.ajax({
+            type: 'POST',
+            url: "/ajaxYear" ,
+            data: {date: date},
+            dataType: 'json', 
+            
+            beforeSend:function () {
+                $('#tableModal').html('')
+                document.getElementById('loader').classList.remove('d-none');
+            },
+            complete:function(){
+                document.getElementById('loader').classList.add('d-none');
+                
+            },
+            success:function(data){
+                   $('#tableModal').append("<thead><tr><th scope='col'>Nazwa</th><th scope='col'>Wartość zwykła</th><th scope='col'>Wartość specialna</th></tr></thead> ")
+                     for(i = 0; i < data.length; i++) {  
+                        category = data[i];  
+                        var e = $('<tbody><tr><td id = "name">  </td><td id = "value">  </td><td id = "specialValue">  </td></tr>');
+                        
+                        console.log(date[1]['name'])
+                        $('#name', e).html(category['name']);  
+                        $('#value', e).html(category['value']);  
+                        $('#specialValue', e).html(category['specialValue']);  
+                        $('#tableModal').append(e);  
+                     }
+                     $('#tableModal').append("</tbody>")
+            },
+            error:function(xhr, textStatus, errorThrown){
+                alert('Ajax request failed.'); 
+            }
+            })
+        }
+
+         function erase() {
+             $("#Modal").on("hidden.bs.modal", function(){
+                $("#tableModal").html("");
+                $("#ModalLabel").html("");
+            });
+         }
+    </script>
     
 {% endblock %}

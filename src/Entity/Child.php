@@ -212,4 +212,8 @@ class Child
         return $this;
     }
 
+    public function getFullName(){
+            return $this->getName() . ' ' . $this->getSurname();
+    }
+
 }

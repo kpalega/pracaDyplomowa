@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,15 +49,26 @@ class News
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="IDuser", referencedColumnName="iduser")
+     *   @ORM\JoinColumn(name="IDuser", referencedColumnName="IDuser")
      * })
      */
     private $iduser;
+
+    /**
+     * @var \Attachment
+     * 
+     * @ORM\ManyToOne(targetEntity="Attachment")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idAttachment", referencedColumnName="idAttachment")
+     * })
+     */
+    private $idAttachment;
 
     public function getIdnews(): ?int
     {
         return $this->idnews;
     }
+    
 
     public function getTopic(): ?string
     {
@@ -105,5 +118,16 @@ class News
         return $this;
     }
 
+    public function getAttachment(): ?Attachment
+    {
+        return $this->idAttachment;
+    }
+
+    public function setAttachment(?Attachment $idAttachment): self
+    {
+        $this->idAttachment = $idAttachment;
+
+        return $this;
+    }
 
 }

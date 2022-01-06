@@ -32,15 +32,17 @@
                             <div class="p-2 align-items-start">
                                 <h5 class="card-title"> {{news.topic}} </h5>
                             </div>
-                            <div class="p-2 align-items-start">
-                                <p class="card-text">  {{ news.content > 50 ? news.content|slice(0, 201)|split(' ')|slice(0, -1)|join(' ') ~ '…' : news.content }} </p>
+                            <div class="p-2 align-items-start" >
+                                <p class="card-text">  {{ news.content }} </p>
                             </div>
                             <div class="mt-auto p-2 justify-content-end align-items-end">
-                                <a href="#" class="btn btn-primary ">Czytaj dalej &raquo;</a>
+                                <a href="{{path('showNews',{'id': news.idnews})}}" class="btn btn-primary ">Czytaj dalej &raquo;</a>
                             </div>
                         </div>
-                        <div class="d-flex flex-column align-items-end  d-none d-md-block container md-col-4 ">
-                            <img src="{{'/images/dziecko-kredki.jpg'}}" class="img-fluid"/>   
+                        <div class="d-flex flex-column align-items-end  d-none d-md-block container md-col-4">
+                            {% if news.attachment != null %}
+                            <img src="{{news.attachment.path}}" class="img-fluid"/>   
+                            {% endif %}
                         </div>
                     </div>
                 </div>

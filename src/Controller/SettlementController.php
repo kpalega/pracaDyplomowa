@@ -8,6 +8,7 @@ use App\Form\InvoiceType;
 use App\Repository\InvoiceRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,15 +16,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class SettlementController extends AbstractController
 {
     #[Route('/settlement/{modifier}/{page}', name: 'settlement')]
-    public function index( $page, $modifier ): Response
+    public function index( $page, $modifier , Request $request ): Response
     {
-        $LIMIT = 10;
-        $OFFSET = $LIMIT * ( $page - 1 );
         
         $dateEnd = new \DateTime('@'.strtotime('today midnight'));
         $dateEnd->setTime(23,59);
         $dateStart = new DateTime();
         $dateStart->setDate($dateEnd->format('Y'), $dateEnd->format('m'), 1)->setTime(0,0);
+        
+        $LIMIT = 2;
+        $OFFSET = $LIMIT * ( (int) $page - 1 );
         
         if( $modifier != 0){
             $dateEnd = $dateEnd->modify("$modifier month");
@@ -37,18 +39,14 @@ class SettlementController extends AbstractController
         $invoices = $invRepo->findByDate( $dateEnd, $dateStart, $LIMIT, $OFFSET );
         
         $pages = $invRepo->countPages($dateEnd,$dateStart,$LIMIT);
-        $montlyBilling = $this->monthlyBilling($dateEnd,$dateStart);
-        $yearlyBilling = $this->yearlyBilling($dateStart);
-        dump($montlyBilling);
-        dump($yearlyBilling);
+
         return $this->render('settlement/index.html.twig', [
             'controller_name' => 'SettlementController',
             'invoices' =>  $invoices,
             'month' => $dateStart->format('F'),
             'year' => $dateStart->format('Y'),
             'pages' => $pages,
-            'categoriesMonth' => $montlyBilling,
-            'categoriesYear' => $yearlyBilling,
+            'date' => $dateEnd
         ]);
         
     }
@@ -90,17 +88,20 @@ class SettlementController extends AbstractController
             'invoiceForm' => $form->createView(),
         ]);
     }
-    
-    public function monthlyBilling($dateEnd, $dateStart) {
-
+  
+    public function countValues( $dateEnd, $dateStart ){
         $entityManager = $this->getDoctrine()->getManager();
-        $categories = $entityManager->getRepository(Category::class)->findAll();
+        $categoriesMonth = $entityManager->getRepository(Category::class)->findAll();
         $invoiceRepo = new InvoiceRepository( $entityManager );
-
-        foreach ($categories as $c)
-        {
-            $c->setSpecialValue(0);
-            $c->setValue(0);
+  
+        $jsonData = array();  
+        $idx = 0;
+        $valAll = 0;
+        $valSpecAll = 0;
+        
+        foreach ($categoriesMonth as $c)
+        {  
+            
             $val = 0;
             $valSpec = 0;
             $invoices = $invoiceRepo->getInvoicesByCategory($c->getIdcategory(), $dateEnd, $dateStart);
@@ -111,47 +112,64 @@ class SettlementController extends AbstractController
                 }
                 else{
                     $valSpec += $i->getValue();
-                }
+                } 
             }
             
-            $c->setSpecialValue($valSpec);
-            $c->setValue($val);
+            $temp = array(
+                'name' => $c->getName(),  
+                'value' => $val,
+                'specialValue' => $valSpec  
+             );   
+            $jsonData[$idx++] = $temp; 
+            $valAll += $val;
+            $valSpecAll += $valSpec;
         }
-        dump($categories);
-        return $categories;
+        
+        $temp = array(
+            'name' => "<b>Razem</b>",  
+            'value' => '<b>' . $valAll . '</b>',
+            'specialValue' => '<b>' . $valSpecAll . '</b>'  
+         );   
+         $jsonData[$idx++] = $temp; 
+        
+         return new JsonResponse($jsonData);
     }
 
-    public function yearlyBilling($date) {
-        $dateStart = new DateTime(); 
-        $dateStart->setDate($date->format('Y'), 1, 1)->setTime(0,0);
-        $dateEnd = new DateTime(); 
-        $dateEnd->setDate($date->format('Y'), 12, 31)->setTime(23,59);
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $categories = $entityManager->getRepository(Category::class)->findAll();
-        $invoiceRepo = new InvoiceRepository( $entityManager );
+    #[Route('/ajaxMonth')]
 
-        foreach ($categories as $c)
-        {
-            $val = 0;
-            $valSpec = 0;
+    public function ajaxMonth(Request $request) {  
 
-            $c->setSpecialValue(0);
-            $c->setValue(0);
-            $invoices = $invoiceRepo->getInvoicesByCategory($c->getIdcategory(), $dateEnd, $dateStart);
-            foreach ($invoices as $i){
-                if(!$i->getSpecial()){
-                    $val += $i->getValue();
-                }
-                else{
-                    $valSpec += $i->getValue();
-                }
-            }
-            $c->setValue($val);
-            $c->setSpecialValue($valSpec);
+        if ($request->isXmlHttpRequest()) {  
+            $dateEnd = DateTime::createFromFormat('Y-m-d G:i', $_POST['date']);
+            $dateEnd->modify("-2 hour");
+            $dateStart = new DateTime();
+            $dateStart->setDate($dateEnd->format('Y'), $dateEnd->format('m'), 1)->setTime(23,59);
+            $dateStart->modify('-1 day');
+            return  $this->countValues( $dateEnd, $dateStart );
         }
-        dump($categories);
+        else {
+            return new JsonResponse("Brak danych"); 
+        }
+     }         
+     #[Route('/ajaxYear')]
 
-        return $categories;
+    public function ajaxYear(Request $request) {  
+
+        if ($request->isXmlHttpRequest()) {  
+            $date = DateTime::createFromFormat('Y-m-d G:i', $_POST['date']);
+            $date->modify("-2 hour");
+            
+            $dateStart = new DateTime(); 
+            $dateStart->setDate($date->format('Y'), 1, 1)->setTime(0,0);
+            $dateStart->modify('-1 day');
+            $dateEnd = new DateTime(); 
+            $dateEnd->setDate($date->format('Y'), 12, 31)->setTime(23,59);
+
+        return $this->countValues( $dateEnd, $dateStart );
     }
+        else {
+            return new JsonResponse("Brak danych"); 
+        }
+     }         
 }

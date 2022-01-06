@@ -2,7 +2,8 @@
 
 
 {% block body %}
-     <div class="container-fluid rounded bg-light p-3">
+
+     <div class="container-fluid rounded bg-light p-3 my-3">
         
         <div class="d-flex flex-column">
            <div class="d-flex flex-row justify-content-between">
@@ -14,16 +15,16 @@
                 </div>
             </div>
    
-     <div class="d-flex flex-row justify-content-between px-4">
+            <div class="d-flex flex-row justify-content-between px-4">
                 <table class="table">
                 <thead>
                     <tr>
                         <th scope="col">Imię</th>
                         <th scope="col">Nazwisko</th>
                         <th scope="col">Stanowisko</th>
+                        <th scope="col">Specjalizacja</th>
                         <th scope="col">Ilość pozostałych dni urlopu</th>
                         <th scope="col">Ilość przepracowanych lat</th>
-                        <th scope="col">Aktywny</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -37,9 +38,23 @@
                             {% else %}
                                 <td>Dyrektor</td>
                             {% endif %}
-                            <td>{{teacher.id}}</td>
-                            <td>{{teacher.id}}</td>
-                            <td><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#vacationModal">Ustal urlop</button></td>
+                            <td>{{teacher.idspecialization.name}}</td>
+                            <td>
+                                {% for vacation in vacations %}
+                                
+                                    {% if vacation.iduser.id == teacher.id %}
+                                        {{vacation.vacationdays}}
+                                    {% endif %}
+                                {% endfor %}  
+                            </td>
+                            <td>
+                                {% for vacation in vacations %}
+                                    {% if vacation.iduser.id == teacher.id %}
+                                        {{vacation.workedyears}}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td><a href="{{path('addVacation',{ 'id': teacher.id})}}" class="btn btn-primary ">Edytuj</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -81,21 +96,23 @@
                 </ul>
             </nav>
         </div>
+    </div>
 
-         <div class="modal fade" id="vacationModal" tabindex="-1" aria-labelledby="vacationModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="vacationModalLabel">Ustalenie dni urlopu</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="d-flex flex-row justify-content-between px-4">
-                
+
+    <div class="modal fade" id="vacationModal" tabindex="-1" aria-labelledby="vacationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="vacationModalLabel">Ustalenie dni urlopu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex flex-row justify-content-between px-4">
+                    </div>
+                    
+                </div>
             </div>
         </div>
-        </div>
-    </div>
     </div>
 
     {% endblock %}

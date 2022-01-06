@@ -1,0 +1,38 @@
+{% extends "basePrivate.html.twig" %}
+
+{% block body %}
+
+{% for label, messages in app.flashes %}
+			<div class="alert alert-success col-md-8 mx-auto text-center" role="alert">
+				{% for message in messages %}
+					<div class="flash-{{ label }}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			</div>
+		{% endfor %}    
+    <div class="container-fluid rounded bg-light p-3">
+        <div class="d-flex flex-column">
+            <div class="d-flex flex-row justify-content-between ">
+                <div class="mb-auto p-3">
+                    <h2 class="">Dodaj obecność</h2>
+                    <h5 class="text-muted">Grupa: {{group.name}}</h5>
+                </div>
+            </div>
+             {{ form_start(form) }}
+        
+                <div class="mb-3 col-5 mx-auto ">
+                      {{ form_row(form.date) }}
+                </div> 
+
+                <div class="mb-3 col-2 mx-auto">
+                      {{ form_row(form.children) }}
+                </div>
+                <div class="mb-3 col-2 mx-auto">
+                    <button type="submit" class="btn btn-primary px-5">Zapisz</button>
+                </div>
+		    {{ form_end(form) }}
+        </div>
+        
+    </div>
+{% endblock %}

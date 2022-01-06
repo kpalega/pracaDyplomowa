@@ -3,24 +3,37 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Vacation;
+use App\Repository\UserRepository;
+use App\Repository\UserTestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-use function PHPUnit\Framework\isNan;
-
 class PersonnelController extends AbstractController
 {
-    #[Route('/personnel/{page}', name: 'personnel')]
-    public function index(): Response
+   
+    private $LIMIT = 10;
+    private $OFFSET = 0;
+    #[Route('/personnel/{page}', name: 'personnel', options: ['expose' => true])]
+    public function index($page): Response
     {
+
+        $this->OFFSET = $this->LIMIT * ( $page - 1 );
+        
         $entityManager = $this->getDoctrine()->getManager(); 
-        $teachers = $entityManager->getRepository(User::class)->findby([
-            'idspecialization' => is_scalar('idspecialization')
-        ]);
+        $userRepository = new UserRepository($entityManager);
+
+        $teachers = new User();
+        $teachers = $userRepository->findByLimit($this->LIMIT, $this->OFFSET);
+        
+        $pages = $userRepository->countPages($this->LIMIT);
+
+        $allVacations = $entityManager->getRepository(Vacation::class)->findAll();
         return $this->render('personnel/index.html.twig', [
-            'pages' => 1,
+            'pages' => $pages,
             "teachers" => $teachers,
+            'vacations' => $allVacations,
         ]);
     }
 }

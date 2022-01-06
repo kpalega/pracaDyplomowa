@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserTestRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -17,7 +18,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="IDuser")
      */
     private $IDuser;
 
@@ -58,6 +59,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $active;
 
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Message", inversedBy="idmessage")
+     * @ORM\JoinTable(name="user_saw_message",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="IDuser", referencedColumnName="IDuser")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="IDmessage", referencedColumnName="IDmessage")
+     *   }
+     * )
+     */
+    private $idmessage;
     
     /**
      * @var \Specialization
@@ -208,5 +224,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getIDuser(): ?int
     {
         return $this->IDuser;
+    }
+   
+    public function getFullName(){
+        return $this->getName() . ' ' . $this->getSurname();
+    
+    }
+
+    
+    /**
+     * @return Collection|Message[]
+     */
+    public function getIdmessage(): Collection
+    {
+        return $this->idmessage;
+    }
+
+    public function addIdmessage(Message $idmessage): self
+    {
+        if (!$this->idmessage->contains($idmessage)) {
+            $this->idmessage[] = $idmessage;
+        }
+
+        return $this;
+    }
+
+    public function removeIdmessage(Message $idmessage): self
+    {
+        $this->idmessage->removeElement($idmessage);
+
+        return $this;
     }
 }

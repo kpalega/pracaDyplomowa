@@ -1,0 +1,67 @@
+{% extends "basePrivate.html.twig" %}
+
+
+{% block body %}
+     <div class="container-fluid rounded bg-light p-3">
+        
+        <div class="d-flex flex-column">
+                <div class="d-flex flex-row justify-content-between ">
+                    <div class="mb-auto p-3">
+                        <h2 class="">Dziennik obecności</h2>
+                        <h5 class="text-muted">Grupa: {{group.name}}</h5>
+                    </div>
+                    <div class="mb-auto p-3">
+                        <a class="btn btn-primary" href="{{ path('addActivity', {'id': idGroup, 'modifier': app.request.attributes.get('_route_params').modifier}) }}"> <i class="bi bi-plus-circle"></i>&emsp;Edytuj obecność</a>
+                    </div>
+                </div>     
+            <div class="d-flex flex-row justify-content-between">
+                <div class="mb-auto mx-3 p-3 flex-column">
+                    <ul class="pagination">
+                        <li class="page-item">
+                        <a class="page-link" href="{{path(app.request.attributes.get('_route'), { 'modifier': app.request.attributes.get('_route_params').modifier - 1, 'id': idGroup})}}" aria-label="Previous">
+                            <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+                        </a>
+                        </li>
+                        <li class="page-item disabled"><a class="page-link" href="#">{{date|date('d M Y')}}</a></li>
+                        <li class="page-item">
+                        <a class="page-link" href="{{path(app.request.attributes.get('_route'), { 'modifier': app.request.attributes.get('_route_params').modifier + 1, 'id': idGroup})}}" aria-label="Next">
+                            <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+                        </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="px-4 table-responsive">
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Imię</th>
+                            <th scope="col">Nazwisko</th>
+                            <th scope="col">Obecność</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for child in children %}
+                            <tr class="{% if child.active is same as false %} table-active {% endif %} text-center">
+                                <td>{{child.name}}</td>
+                                <td>{{child.surname}}</td>
+                                <td>
+                                    {% for activity in child.idactivity %}
+                                        {% if activity.date|date('Y-m-d') == date|date('Y-m-d' ) %}<span><i class="bi bi-check-circle-fill text-success" style="font-size: 1.2rem; "></i></span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+
+  
+{% endblock %}

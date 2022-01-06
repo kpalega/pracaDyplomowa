@@ -8,20 +8,22 @@
 		</title>
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
-		
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" integrity="sha256-16PDMvytZTH9heHu9KBPjzrFTaoner60bnABykjNiM0=" crossorigin="anonymous">
 		{# Run `composer require symfony/webpack-encore-bundle`
-																												           and uncomment the following Encore helpers to start using Symfony UX #}
+																											           and uncomment the following Encore helpers to start using Symfony UX #}
 		{% block stylesheets %}
-			{#{{ encore_entry_link_tags('app') }}#}
+			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
-
+		
 		{% block javascripts %}
-			{#{{ encore_entry_script_tags('app') }}#}
+			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
 	<body class="bg-secondary bg-opacity-25">
 		<div class="d-flex flex-row ">
-			<div class=" col-md-2 d-flex flex-column p-3 bg-primary bg-opacity-75 sticky-top vh-100">
+			<div class=" col-md-2 d-flex flex-column p-3 bg-primary bg-opacity-75 sticky-top vh-100 shadow ">
 				<a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
 					<div class="d-flex mb-3 align-items-center justify-content-center py-3" >
 							<img class="img-fluid rounded-circle" style="width: 55%;" src="{{'/images/Przedszkole.png'}}" ></img>
@@ -32,7 +34,7 @@
 					<li class="mb-auto nav-item text-wrap"><a href="#" class="nav-link link-light {% if is_granted( "ROLE_ADMIN" ) %} d-none {% endif %}"><h6>Strona główna</h6></a></li>
 
 					{% if is_granted( "ROLE_ADMIN" ) %}
-					<li class="mb-auto nav-item text-wrap"><a href="{{path('home')}}" class="nav-link link-light"><h6>Panel administracyjny</h6></a></li>
+					<li class="mb-auto nav-item text-wrap"><a href="{{path('home')}}" class="nav-link link-light"><h6>Panel sterowania</h6></a></li>
 					{% endif %}
 				
 					{% if is_granted( "ROLE_TEACHER" ) %}
@@ -40,14 +42,14 @@
 					{% endif %}
 
 					<li class="mb-auto nav-item text-wrap"><a href="{{path('news', { 'page': 1})}}" class="nav-link link-light"><h6>Aktualności</h6></a></li>
-					<li class="mb-auto nav-item text-wrap"><a href="#" class="nav-link link-light"><h6>Wiadomości</h6></a></li>
+					<li class="mb-auto nav-item text-wrap"><a href="{{path('messange')}}" class="nav-link link-light"><h6>Wiadomości</h6></a></li>
 					<li class="mb-auto nav-item text-wrap"><a href="#" class="nav-link link-light"><h6>Dokumenty</h6></a></li>
 					<li class="mb-auto nav-item text-wrap"><a href="#" class="nav-link link-light {% if is_granted( "ROLE_ADMIN" ) %} d-none {% endif %}"><h6>Praca domowa</h6></a></li>
 
 				</ul>
 				<hr style="color:white">
 				<div class="d-flex align-items-center justify-content-center">
-					<button type="button" href="{{ path('app_logout') }}" class="flex-fill btn btn-primary active text-white">Wyloguj</button>
+					<button type="button" href="{{ path('app_logout') }}" class="flex-fill btn btn-primary active text-white shadow">Wyloguj</button>
 				</div>
 			</div>
 			<div class="flex-row flex-fill">
@@ -64,6 +66,7 @@
 					
 				</div>
 				<div class="flex-fill my-3">
+					{% block largeBody %}{% endblock %}
 					<div class="container align-center">
 						{% block body %}{% endblock %}
 					</div>

@@ -1,12 +1,11 @@
 {% extends "basePrivate.html.twig" %}
 
-
 {% block body %}
      <div class="container-fluid rounded bg-light p-3">
         
         <h2 class="p-3">Dodaj dziecko</h2>
         {% for label, messages in app.flashes %}
-			<div class="alert alert-success col-md-8 mx-auto text-center" role="alert">
+			<div class="alert alert-{{label}} col-md-8 mx-auto text-center" role="alert">
 				{% for message in messages %}
 					<div class="flash-{{ label }}">
 						{{ message }}
@@ -15,6 +14,7 @@
 			</div>
 		{% endfor %}    
 
+        <div id='form'>
          {{ form_start(childForm) }}
             <div class="d-flex flex-column align-items-center">
 			    <div class="d-flex flex-row justify-content-center">
@@ -43,10 +43,11 @@
                 </div>
                 
                 <div class="d-flex flex-row justify-content-center p-3">
-                    <button type="submit" class="btn btn-primary">Zapisz dziecko</button>
+                    <button type="submit" id="save_child" class="btn btn-primary">Zapisz dziecko</button>
                 </div>
             </div>
 		{{ form_end(childForm) }}
+        </div>
     </div>
 
 

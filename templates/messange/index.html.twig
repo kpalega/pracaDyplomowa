@@ -1,0 +1,80 @@
+{% extends "basePrivate.html.twig" %}
+
+
+{% block largeBody %}
+	<div class="d-flex flex-row ">
+        <div id="messages" class="col-md-3 d-flex flex-column p-3 mx-3 bg-light sticky-top vh-100 shadow overflow-auto">
+            <a href="{{path('addMessange')}}" class=" btn btn-primary shadow m-1 p-2"> Napisz wiadomość </a> 
+            {% for mess in messages %}
+            <button type="button" onclick="change({{mess.idmessage}})" class=" btn shadow m-1 p-2 text-start"> 
+                {% if ( mess.seen != true ) and ( mess.fromUser != user ) %}
+                    <b>{{mess.topic}}</b> 
+                {% elseif ( mess.fromUser == user )%}
+                     [Wysłane] {{mess.topic}}  
+                {% else %}
+                    {{mess.topic}} 
+                {% endif %}
+            </button>
+            {% endfor %}
+        </div>
+        <div class="flex-fill p-3 me-3 bg-light shadow overflow-auto position-relative">
+            <div class="position-absolute top-50 start-50 translate-middle">
+                <div id="loader" class="spinner-border d-none" style="height: 100px; width: 100px;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-between container-fluid rounded p-3 bg-secondary bg-opacity-25">
+                <div>
+                    <h6 id="topic" class="display-6 height"> <i class="bi bi-arrow-left-circle-fill"></i> Wybierz wiadomość</h6>
+                    <h6 id="users" class="text-muted"></h6>
+                </div>
+                <div>
+                    <h5 id="date" class="text-muted"></h5>
+                    <h5 id="seen" class="text-end"></h5>
+                </div>
+            </div>
+            <div class="d-flex my-2 p-3 container-fluid sticky-top vh-100">
+                <p id="content"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function change($id) {
+             $.ajax({
+            type: 'POST',
+            url: "/showMessage"  ,
+            data: { id: $id },
+            dataType: 'json', 
+            
+            beforeSend:function () {
+                document.getElementById('loader').classList.remove('d-none');
+            },
+            complete:function(){
+                document.getElementById('loader').classList.add('d-none');
+            },
+            success:function(data){
+                $("#messages").load(" #messages button,  #messages a ")
+                mail = data[0];  
+
+                console.log(data[0])
+                $('#topic').html(mail['topic']);  
+                $('#content').html(mail['content']);  
+                $('#date').html(mail['date'].date.toLocaleString('pl-PL').slice(0, 19));  
+                if(mail['seen']){ 
+                    $('#seen').html(' <i class="bi bi-check-all "></i> ');    
+                } else {
+                    $('#seen').html(' <i class="bi bi-check"></i> ');   
+                }
+                           
+
+
+                 
+            },
+            error:function(xhr, textStatus, errorThrown){
+                alert('Ajax request failed.'); 
+            }
+            })
+        }
+    </script>
+{% endblock %}

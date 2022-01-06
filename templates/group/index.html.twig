@@ -35,13 +35,16 @@
                             <td>
                                 <div class = "px-3 float-end">
                                     {% if group.active is same as true %} 
-                                    <button type="button" class="mb-auto btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        <button id="archive" data-id="{{group.idclass}}" type="button" class="mb-auto btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                             Zaarchiwizuj
                                         </button>
                                     {% endif %}
-                                    <button type="button" class="mb-auto btn btn-primary btn-sm">
+                                    <a class="mb-auto btn btn-success btn-sm" href="{{path('presence', {"id" : group.idclass, "modifier" : 0})}}">
+                                            Dziennik
+                                    </a>
+                                    <a class="mb-auto btn btn-primary btn-sm" href="{{path('detailsGroup', {"id" : group.idclass})}}">
                                             Szczegóły
-                                    </button>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
@@ -97,15 +100,41 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+            <div id="idGroup"> ___ </div>
             Czy na pewno chcesz zaarchiwizować grupę? <br/> Tej akcji nie można cofnąć.
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-            <button type="button" class="btn btn-primary">Tak</button>
+            <button id="accept" data-id="0" type="button" class="btn btn-primary" >Tak</button>
         </div>
         </div>
     </div>
     </div>
 
+    <script>
+        $(document).on("click", "#archive", function () {
+            var groupId = $(this).data('id');
+            console.log(groupId)
+            document.getElementById('accept').dataset.id = groupId;
+        });
+
+        $(document).on("click", "#accept", function () {
+            var group = $(this).data('id');
+            console.log(group)
+            $.ajax({
+            type: 'POST',
+            url: "/archiveGroup/"+group ,
+            dataType: 'json', 
+            
+            success:function(data){
+                window.location.href = "/groups/1";
+                
+            },
+            error:function(xhr, textStatus, errorThrown){
+                alert('Ajax request failed.'); 
+            }
+            })
+        });
+    </script>
 {% endblock %}
 

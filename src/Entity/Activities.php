@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * Activities
@@ -22,13 +23,6 @@ class Activities
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idactivity;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=45, nullable=false)
-     */
-    private $name;
 
     /**
      * @var \DateTime
@@ -55,6 +49,12 @@ class Activities
     private $idchild;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="presence", type="boolean", length=45, nullable=false)
+     */
+    private $presence;
+    /**
      * Constructor
      */
     public function __construct()
@@ -65,18 +65,6 @@ class Activities
     public function getIdactivity(): ?int
     {
         return $this->idactivity;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     public function getDate(): ?\DateTimeInterface
@@ -130,4 +118,26 @@ class Activities
         return $this;
     }
 
+
+    /**
+     * Get the value of presence
+     *
+     * @return  boolean
+     */ 
+    public function getPresence()
+    {
+        return $this->presence;
+    }
+
+    /**
+     * Set the value of presence
+     *
+     * @return  self
+     */ 
+    public function setPresence(bool $presence)
+    {
+        $this->presence = $presence;
+
+        return $this;
+    }
 }

@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'start')]
+    #[Route('/', name: 'start', options: ['expose' => true])]
     public function start(): Response
     {
         return $this->render('home/start.html.twig', [
@@ -16,7 +16,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/home', name: 'home')]
+    #[Route('/home', name: 'home', options: ['expose' => true])]
     public function home(): Response
     {
         return $this->render('home/home.html.twig', [

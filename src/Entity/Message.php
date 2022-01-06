@@ -50,6 +50,13 @@ class Message
      * @ORM\Column(name="seen", type="boolean", nullable=false)
      */
     private $seen = '0';
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime", nullable=false)
+     */
+    private $date;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -59,11 +66,28 @@ class Message
     private $iduser;
 
     /**
+     * @ORM\OneToMany(targetEntity="Attachment", mappedBy="message")
+     */
+    private $attachments;
+
+    
+    /**
+     * @var \App\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="fromUser", referencedColumnName="IDuser")
+     * })
+     */
+    private $fromUser;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->iduser = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->attachments = new ArrayCollection();
     }
 
     public function getIdmessage(): ?int
@@ -146,4 +170,84 @@ class Message
         return $this;
     }
 
+        /**
+     * @return Collection|Attachment[]
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachment(Attachment $attachment): self
+    {
+        if (!$this->attachments->contains($attachment)) {
+            $this->attachments[] = $attachment;
+            $attachment->setMessage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachment(Attachment $attachment): self
+    {
+        if ($this->attachments->removeElement($attachment)) {
+            // set the owning side to null (unless already changed)
+            if ($attachment->getMessage() === $this) {
+                $attachment->setMessage(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of date
+     *
+     * @return  \DateTime
+     */ 
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set the value of date
+     *
+     * @param  \DateTime  $date
+     *
+     * @return  self
+     */ 
+    public function setDate(\DateTime $date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+
+
+    /**
+     * Get the value of fromUser
+     *
+     * @return  \App\Entity\User
+     */ 
+    public function getFromUser()
+    {
+        return $this->fromUser;
+    }
+
+    /**
+     * Set the value of fromUser
+     *
+     * @param  \App\Entity\User  $fromUser
+     *
+     * @return  self
+     */ 
+    public function setFromUser(\App\Entity\User $fromUser)
+    {
+        $this->fromUser = $fromUser;
+
+        return $this;
+    }
 }
