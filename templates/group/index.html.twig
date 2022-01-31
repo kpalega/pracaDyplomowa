@@ -10,7 +10,9 @@
                     <h2 class="p-3">Grupy</h2>
                 </div>
                 <div class="p-3 ">
+                {% if is_granted( "ROLE_ADMIN" ) %}
                     <a href="{{path('addGroup')}}" class="btn btn-primary ">Dodaj grupę</a>
+				{% endif %}
                 </div>
             </div>
    
@@ -35,9 +37,11 @@
                             <td>
                                 <div class = "px-3 float-end">
                                     {% if group.active is same as true %} 
-                                        <button id="archive" data-id="{{group.idclass}}" type="button" class="mb-auto btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                            Zaarchiwizuj
-                                        </button>
+                                        {% if is_granted( "ROLE_ADMIN" ) %}
+                                            <button id="archive" data-id="{{group.idclass}}" type="button" class="mb-auto btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                Zaarchiwizuj
+                                            </button>            
+                                        {% endif %}
                                     {% endif %}
                                     <a class="mb-auto btn btn-success btn-sm" href="{{path('presence', {"id" : group.idclass, "modifier" : 0})}}">
                                             Dziennik

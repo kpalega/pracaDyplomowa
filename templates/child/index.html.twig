@@ -10,7 +10,9 @@
                     <h2 class="p-3">Księga dzieci</h2>
                 </div>
                 <div class="p-3 ">
+                    {% if is_granted( "ROLE_ADMIN" ) %}
                     <a href="{{path('addChild')}}" class="btn btn-primary ">Dodaj dziecko</a>
+                    {% endif %}
                 </div>
             </div>
    
@@ -54,9 +56,11 @@
                             </td>
                             <td>
                                 {% if child.active is same as true %} 
-                                   <button id="archive" data-id="{{child.idchild}}" type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                   {% if is_granted( "ROLE_ADMIN" ) %}
+                                    <button id="archive" data-id="{{child.idchild}}" type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                         Zaarchiwizuj
-                                    </button>
+                                    </button>                
+                                    {% endif %}
                                 {% endif %}
                             </td>
                         </tr>

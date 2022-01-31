@@ -1,22 +1,56 @@
 {% extends "basePrivate.html.twig" %}
 
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('calendar') }}
+{% endblock %}
+
 {% block javascripts %}
-    <link href='fullcalendar/main.css' rel='stylesheet' />
-    <script src='fullcalendar/main.js'></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth'
-            });
-            calendar.render();
-        });
-    </script>
+    {{ encore_entry_script_tags('calendar') }}
 {% endblock %}
 
 {% block body %}
-
-<div id="calendar">
+ 
+<div id="calendar" class="bg-light rounded p-5">
 </div>
+
+    <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel">Dodaj wydarzenie</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex flex-column px-4">
+                
+                        <div class="d-flex flex-row p-2 justify-content-center ">
+                            <div id="loader" class="spinner-border d-none" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                
+                        <div class="d-flex flex-column p-2">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Nazwa wydarzenia</label>
+                                <input id='titleEvent' type="text" class="form-control" id="title">
+                            </div>
+                            <div class="mb-3 d-flex flex-row justify-content-between">
+                                <div class="mb-3 d-flex flex-row justify-content-between">
+                                <p>Od: &emsp;</p>
+                                <span id="startEvent"></span>
+                                </div>
+                                <div class="mb-3 d-flex flex-row justify-content-between">
+                                <p>Do: &emsp;</p>
+                                <span id="endEvent"></span>
+                                </div>
+                            </div>
+                            <button id="button" type="submit" class="btn btn-primary">Zapisz</button>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
 {% endblock %}

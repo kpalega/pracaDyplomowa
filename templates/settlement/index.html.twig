@@ -110,29 +110,29 @@
 
     <!-- Modal -->
     <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="ModalLabel"></h5>
-            <button type="button" onclick='erase()' class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="d-flex flex-column px-4">
-                
-                <div class="d-flex flex-row p-2 justify-content-center ">
-                    <div id="loader" class="spinner-border d-none" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel"></h5>
+                    <button type="button" onclick='erase()' class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="modal-body">
+                    <div class="d-flex flex-column px-4">
                 
-                <div class="d-flex flex-row p-2">
-                    <table id='tableModal' class="table">
-                    </table>
+                        <div class="d-flex flex-row p-2 justify-content-center ">
+                            <div id="loader" class="spinner-border d-none" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                
+                        <div class="d-flex flex-row p-2">
+                            <table id='tableModal' class="table">
+                            </table>
+                         </div>
+                    </div>
                 </div>
             </div>
         </div>
-        </div>
-    </div>
     </div>
 
     <script>

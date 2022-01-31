@@ -22,6 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('post', './assets/post.js')
+    .addEntry('calendar', './assets/calendar.js')
     
     .copyFiles({
         from: 'vendor/tinymce/tinymce/skins',

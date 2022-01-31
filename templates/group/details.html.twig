@@ -51,13 +51,6 @@
                                         {{ disability.decision }}
                                     {% endfor %}
                                 </td>
-                                <td>
-                                    {% if child.active is same as true %} 
-                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                            Zaarchiwizuj
-                                        </button>
-                                    {% endif %}
-                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
